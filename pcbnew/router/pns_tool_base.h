@@ -22,10 +22,12 @@
 #ifndef __PNS_TOOL_BASE_H
 #define __PNS_TOOL_BASE_H
 
+#include <memory>
 #include <import_export.h>
 
 #include <math/vector2d.h>
-#include <tool/tool_interactive.h>
+#include <tools/pcb_tool.h>
+#include <board_commit.h>
 
 #include <msgpanel.h>
 
@@ -35,7 +37,7 @@ class PNS_TUNE_STATUS_POPUP;
 class GRID_HELPER;
 class PNS_KICAD_IFACE;
 
-class APIEXPORT PNS_TOOL_BASE : public TOOL_INTERACTIVE
+class APIEXPORT PNS_TOOL_BASE : public PCB_TOOL
 {
 public:
     static TOOL_ACTION ACT_RouterOptions;

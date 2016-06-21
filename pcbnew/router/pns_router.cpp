@@ -205,6 +205,7 @@ void PNS_ROUTER::DisplayItems( const PNS_ITEMSET& aItems )
         m_iface->DisplayItem( item );
 }
 
+
 void PNS_ROUTER::Move( const VECTOR2I& aP, PNS_ITEM* endItem )
 {
     m_currentEnd = aP;
@@ -281,11 +282,11 @@ void PNS_ROUTER::updateView( PNS_NODE* aNode, PNS_ITEMSET& aCurrent )
 
     aNode->GetUpdatedItems( removed, added );
 
-	for ( auto item : added )
+    for ( auto item : added )
         m_iface->DisplayItem( item );
 
-    for ( auto item : removed )
-        m_iface->HideItem ( item );
+    for( auto item : removed )
+        m_iface->HideItem( item );
 }
 
 

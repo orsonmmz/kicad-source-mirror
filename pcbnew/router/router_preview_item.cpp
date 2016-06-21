@@ -119,7 +119,6 @@ void ROUTER_PREVIEW_ITEM::Update( const PNS_ITEM* aItem )
         m_color = COLOR4D( 0, 1, 0, 1 );
 
     ViewSetVisible( true );
-    ViewUpdate( GEOMETRY | APPEARANCE );
 }
 
 
@@ -275,7 +274,6 @@ void ROUTER_PREVIEW_ITEM::Line( const SHAPE_LINE_CHAIN& aLine, int aWidth, int a
     m_shape = aLine.Clone();
 
     ViewSetVisible( true );
-    ViewUpdate( GEOMETRY | APPEARANCE );
 }
 
 

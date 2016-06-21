@@ -73,23 +73,23 @@ enum PNS_ROUTER_MODE {
  class PNS_ROUTER_IFACE
  {
  public:
-        PNS_ROUTER_IFACE() {};
-        virtual ~PNS_ROUTER_IFACE() {};
+    PNS_ROUTER_IFACE() {};
+    virtual ~PNS_ROUTER_IFACE() {};
 
-        virtual void SetRouter( PNS_ROUTER* aRouter ) = 0;
-        virtual void SyncWorld( PNS_NODE* aNode ) = 0;
-        virtual void AddItem( PNS_ITEM* aItem ) = 0;
-        virtual void RemoveItem( PNS_ITEM* aItem ) = 0;
-        virtual void DisplayItem( const PNS_ITEM* aItem, int aColor = -1, int aClearance = -1 ) = 0;
-        virtual void HideItem( PNS_ITEM* aItem ) = 0;
-        virtual void Commit() = 0;
+    virtual void SetRouter( PNS_ROUTER* aRouter ) = 0;
+    virtual void SyncWorld( PNS_NODE* aNode ) = 0;
+    virtual void AddItem( PNS_ITEM* aItem ) = 0;
+    virtual void RemoveItem( PNS_ITEM* aItem ) = 0;
+    virtual void DisplayItem( const PNS_ITEM* aItem, int aColor = -1, int aClearance = -1 ) = 0;
+    virtual void HideItem( PNS_ITEM* aItem ) = 0;
+    virtual void Commit() = 0;
 //        virtual void Abort () = 0;
 
-        virtual void EraseView() = 0;
-        virtual void UpdateNet( int aNetCode ) = 0;
+    virtual void EraseView() = 0;
+    virtual void UpdateNet( int aNetCode ) = 0;
 
-        virtual PNS_RULE_RESOLVER* GetRuleResolver() = 0;
-        virtual PNS_DEBUG_DECORATOR* GetDebugDecorator() = 0;
+    virtual PNS_RULE_RESOLVER* GetRuleResolver() = 0;
+    virtual PNS_DEBUG_DECORATOR* GetDebugDecorator() = 0;
 };
 
 class PNS_ROUTER
@@ -107,7 +107,7 @@ public:
     ~PNS_ROUTER();
 
     void SetInterface( PNS_ROUTER_IFACE* aIface );
-    void SetMode ( PNS_ROUTER_MODE aMode );
+    void SetMode( PNS_ROUTER_MODE aMode );
     PNS_ROUTER_MODE Mode() const { return m_mode; }
 
     static PNS_ROUTER* GetInstance();
@@ -139,7 +139,7 @@ public:
     void SwitchLayer( int layer );
 
     void ToggleViaPlacement();
-    void SetOrthoMode ( bool aEnable );
+    void SetOrthoMode( bool aEnable );
 
     int GetCurrentLayer() const;
     const std::vector<int> GetCurrentNets() const;
@@ -206,8 +206,7 @@ public:
 
     PNS_ITEM* QueryItemByParent( const BOARD_ITEM* aItem ) const;
 
-
-    void SetFailureReason ( const wxString& aReason ) { m_failureReason = aReason; }
+    void SetFailureReason( const wxString& aReason ) { m_failureReason = aReason; }
     const wxString& FailureReason() const { return m_failureReason; }
 
     PNS_PLACEMENT_ALGO* Placer() { return m_placer; }
@@ -263,7 +262,7 @@ private:
     bool m_violation;
 
     PNS_ROUTING_SETTINGS m_settings;
-    ///> Stores list of modified items in the current operation
+
     PNS_SIZES_SETTINGS m_sizes;
     PNS_ROUTER_MODE m_mode;
 

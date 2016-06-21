@@ -64,7 +64,7 @@ TOOL_ACTION PNS_TOOL_BASE::ACT_RouterOptions( "pcbnew.InteractiveRouter.RouterOp
 
 
 PNS_TOOL_BASE::PNS_TOOL_BASE( const std::string& aToolName ) :
-    TOOL_INTERACTIVE( aToolName )
+    PCB_TOOL( aToolName )
 {
     m_gridHelper = NULL;
     m_iface = NULL;
@@ -90,7 +90,6 @@ PNS_TOOL_BASE::~PNS_TOOL_BASE()
 }
 
 
-
 void PNS_TOOL_BASE::Reset( RESET_REASON aReason )
 {
     delete m_gridHelper;
@@ -102,7 +101,6 @@ void PNS_TOOL_BASE::Reset( RESET_REASON aReason )
     m_board = getModel<BOARD>();
 
     m_iface = new PNS_KICAD_IFACE;
-
     m_iface->SetBoard( m_board );
     m_iface->SetView( getView() );
     m_iface->SetHostFrame( m_frame );

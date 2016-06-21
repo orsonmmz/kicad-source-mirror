@@ -23,6 +23,7 @@
 #include <class_board_connected_item.h>
 #include <class_module.h>
 #include <class_track.h>
+#include <board_commit.h>
 #include <ratsnest_data.h>
 #include <layers_id_colors_and_visibility.h>
 #include <geometry/convex_hull.h>
@@ -411,11 +412,13 @@ PNS_KICAD_IFACE::PNS_KICAD_IFACE()
     m_world = nullptr;
     m_router = nullptr;
     m_debugDecorator = nullptr;
+    m_commit = nullptr;
 }
 
 
 PNS_KICAD_IFACE::~PNS_KICAD_IFACE()
 {
+    delete m_commit;
     delete m_ruleResolver;
     delete m_debugDecorator;
 
@@ -810,9 +813,8 @@ void PNS_KICAD_IFACE::RemoveItem( PNS_ITEM* aItem )
 
     if( parent )
     {
-        m_view->Remove( parent );
-        m_board->Remove( parent );
-        m_undoBuffer.PushItem( ITEM_PICKER( parent, UR_DELETED ) );
+        assert( m_commit );
+        m_commit->Remove( parent );
     }
 }
 
@@ -860,20 +862,16 @@ void PNS_KICAD_IFACE::AddItem( PNS_ITEM* aItem )
     {
         aItem->SetParent( newBI );
         newBI->ClearFlags();
-        m_view->Add( newBI );
-        m_board->Add( newBI );
-        m_undoBuffer.PushItem( ITEM_PICKER( newBI, UR_NEW ) );
-        newBI->ViewUpdate( KIGFX::VIEW_ITEM::GEOMETRY );
+
+        assert( m_commit );
+        m_commit->Add( newBI );
     }
 }
 
 
 void PNS_KICAD_IFACE::Commit()
 {
-    m_board->GetRatsnest()->Recalculate();
-    m_frame->SaveCopyInUndoList( m_undoBuffer, UR_UNSPECIFIED );
-    m_undoBuffer.ClearItemsList();
-    m_frame->OnModify();
+    m_commit->Push( wxT( "Added a track" ) );
 }
 
 
@@ -898,22 +896,29 @@ void PNS_KICAD_IFACE::SetView( KIGFX::VIEW *aView )
     m_debugDecorator->SetView( m_view );
 }
 
+
 void PNS_KICAD_IFACE::UpdateNet( int aNetCode )
 {
     wxLogTrace( "PNS", "Update-net %d\n", aNetCode );
 }
+
 
 PNS_RULE_RESOLVER* PNS_KICAD_IFACE::GetRuleResolver()
 {
     return m_ruleResolver;
 }
 
+
 void PNS_KICAD_IFACE::SetRouter( PNS_ROUTER* aRouter )
 {
     m_router = aRouter;
 }
 
-void PNS_KICAD_IFACE::SetHostFrame( PCB_EDIT_FRAME *aFrame )
+
+void PNS_KICAD_IFACE::SetHostFrame( PCB_EDIT_FRAME* aFrame )
 {
     m_frame = aFrame;
+
+    delete m_commit;
+    m_commit = new BOARD_COMMIT( aFrame );
 }
